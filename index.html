@@ -10,7 +10,11 @@
 <meta property="og:title" content="Shreehari Anbazhagan — Data & Cloud Engineer">
 <meta property="og:description" content="Cloud infrastructure, data pipelines, backend services and the AI on top. Explore the mission archive — and earn some XP while you're at it.">
 <meta property="og:url" content="https://shreeharia.github.io/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://shreeharia.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://shreeharia.github.io/og-image.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060913'/%3E%3Ccircle cx='32' cy='30' r='11' fill='%2367E8F9'/%3E%3Cellipse cx='32' cy='33' rx='22' ry='6.5' fill='none' stroke='%23FFC46B' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +88,7 @@ main,footer{position:relative;z-index:1}
   font-family:var(--font-mono);font-size:clamp(11.5px,1.6vw,14px);
   line-height:1.9;color:var(--ion);white-space:pre-wrap;
   text-shadow:0 0 12px rgba(103,232,249,.35);
-  min-height:12.5em;
+  min-height:9.5em;
 }
 #bootLines .b-dim{color:var(--faint)}
 #bootLines .b-ok{color:var(--ok)}
@@ -468,6 +472,15 @@ body.warping #warpFlash{animation:warpFlash 2.6s ease-in-out}
 body.warping{animation:shake .5s ease-in-out}
 @keyframes shake{0%,100%{transform:none}25%{transform:translate(1px,-2px)}50%{transform:translate(-2px,1px)}75%{transform:translate(1px,1px)}}
 
+/* toast dismiss + HUD entrance */
+.toast{pointer-events:auto}
+.toast-x{background:none;border:0;color:var(--faint);font-size:16px;line-height:1;cursor:pointer;padding:4px 2px 4px 8px;flex-shrink:0}
+.toast-x:hover{color:var(--text)}
+#hud{opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+body.hud-on #hud{opacity:1;pointer-events:auto;transform:none}
+#hudToggle.ping{animation:hudPing .9s var(--ease)}
+@keyframes hudPing{0%{box-shadow:0 0 0 0 rgba(255,196,107,.55)}100%{box-shadow:0 0 0 16px rgba(255,196,107,0)}}
+
 /* ============ REVEAL ============ */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease), transform .7s var(--ease)}
 .reveal.in-view{opacity:1;transform:none}
@@ -523,7 +536,7 @@ html.no-js .hero-name .line span{transform:none}
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
-  <p class="kicker mono">// Mission control · Birmingham, UK · <span class="dot-ok">●</span> Open to missions</p>
+  <p class="kicker mono">// Mission control · Birmingham, UK · <span class="dot-ok">●</span> Open to data, cloud &amp; AI roles</p>
   <h1 class="hero-name">
     <span class="line"><span>SHREEHARI</span></span>
     <span class="line"><span>ANBAZHAGAN</span></span>
@@ -559,9 +572,9 @@ html.no-js .hero-name .line span{transform:none}
   </header>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>I'm an engineer who likes designing complex systems and seeing them all the way through to production. My path runs from <strong>software and data engineering</strong> into <strong>cloud &amp; platform work</strong> and <strong>applied AI</strong> — and I enjoy the seams between them: taking a real business problem, modelling it, and building the pipeline, the service, and the interface that solve it.</p>
-      <p>At <strong>Comcast</strong> I spent two years as a data engineer building enterprise ETL pipelines and cutting infrastructure costs by half. At <strong>MInt Labs (IIT Madras)</strong> I built a real-time ML system on 17 million GPS records. Most recently, at UK startup <strong>Kahawa Roots</strong>, I designed and shipped an entire cloud platform end to end — backend, database, frontend, infrastructure and CI/CD.</p>
-      <p>Alongside all of this I'm completing a <strong>Joint MSc in Data Science &amp; AI</strong> with the University of Birmingham and IIT Madras. What I care about: clean architecture, pipelines that don't break at 3am, turning ambiguous requirements into something scalable, and putting AI to work inside real products rather than in a notebook.</p>
+      <p>I design complex systems and see them through to production — across <strong>data engineering</strong>, <strong>cloud &amp; platform work</strong> and <strong>applied AI</strong>. Give me an ambiguous business problem and I'll model it, then build the pipeline, the service and the interface that solve it.</p>
+      <p>Two years at <strong>Comcast</strong> building enterprise ETL and halving infrastructure costs. A real-time ML system on 17M GPS records at <strong>MInt Labs (IIT Madras)</strong>. Most recently, the entire cloud platform for UK startup <strong>Kahawa Roots</strong> — shipped end to end while completing a <strong>Joint MSc in Data Science &amp; AI</strong> (University of Birmingham × IIT Madras).</p>
+      <p>What I care about: clean architecture, and pipelines that don't break at 3am.</p>
     </div>
     <aside class="dossier-card panel reveal" aria-label="Personnel file">
       <h3>◈ Personnel file</h3>
@@ -572,7 +585,7 @@ html.no-js .hero-name .line span{transform:none}
         <div class="d-row"><dt>Base</dt><dd>Birmingham, UK</dd></div>
         <div class="d-row"><dt>Range</dt><dd>UK · EU · Dubai · Remote</dd></div>
         <div class="d-row"><dt>Training</dt><dd>MSc Data Science &amp; AI</dd></div>
-        <div class="d-row"><dt>Status</dt><dd class="d-ok">● Open to missions</dd></div>
+        <div class="d-row"><dt>Status</dt><dd class="d-ok">● Actively seeking roles</dd></div>
       </dl>
     </aside>
   </div>
@@ -588,16 +601,16 @@ html.no-js .hero-name .line span{transform:none}
     <li class="t-item reveal">
       <span class="t-node" aria-hidden="true"></span>
       <div class="t-card panel">
-        <div class="t-top"><span class="t-date">2026 · United Kingdom</span><span class="tag tag-ok">Deployed to production</span></div>
+        <div class="t-top"><span class="t-date">May – Jul 2026 · United Kingdom</span><span class="tag tag-ok">Deployed to production</span></div>
         <h3>Traceability Platform Developer Intern</h3>
         <p class="t-org">KAHAWA ROOTS (UK) LTD · <a href="https://drive.google.com/file/d/1wv47HnXYlr6MziqXIUMfUOaDoN2EGptj/view" target="_blank" rel="noopener" data-comms>reference letter ↗</a></p>
         <ul>
           <li>Designed and delivered an <strong>enterprise coffee-traceability platform</strong> connecting farms in Kenya to buyers in the UK — owning the system from architecture to production.</li>
-          <li>Built the <strong>Python / FastAPI</strong> backend on <strong>PostgreSQL</strong> — data modelling, migrations, lot tracking, record correction and approval workflows — plus the <strong>Next.js / TypeScript</strong> frontend with customer-facing QR traceability journeys.</li>
+          <li>Built the <strong>Python / FastAPI</strong> backend on <strong>PostgreSQL</strong> — data modelling, migrations, lot tracking, record correction and approval workflows — plus the <strong>Next.js</strong> frontend with customer-facing QR traceability journeys.</li>
           <li>Provisioned the full <strong>AWS</strong> stack (ECS, RDS, S3, Cognito) as <strong>Terraform</strong> IaC with GitHub Actions CI/CD and OIDC; implemented RBAC, audit logging and secrets management; owned production monitoring.</li>
           <li>Acted as technical lead with stakeholders and mentored a fellow intern — recognised in a reference letter from the Head of Sustainability &amp; Traceability.</li>
         </ul>
-        <div class="chips"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Next.js</span><span>TypeScript</span><span>AWS</span><span>Terraform</span><span>CI/CD</span></div>
+        <div class="chips"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>Next.js</span><span>AWS</span><span>Terraform</span><span>CI/CD</span></div>
       </div>
     </li>
     <li class="t-item reveal">
@@ -704,7 +717,7 @@ html.no-js .hero-name .line span{transform:none}
   <div class="sys-grid">
     <article class="sys panel reveal">
       <div class="sys-head"><h3>Core languages</h3><span class="sys-dot">ONLINE</span></div>
-      <div class="chips"><span>Python</span><span>SQL</span><span>TypeScript</span></div>
+      <div class="chips"><span>Python</span><span>SQL</span></div>
     </article>
     <article class="sys panel reveal">
       <div class="sys-head"><h3>Backend</h3><span class="sys-dot">ONLINE</span></div>
@@ -728,7 +741,7 @@ html.no-js .hero-name .line span{transform:none}
     </article>
     <article class="sys panel reveal">
       <div class="sys-head"><h3>Frontend array</h3><span class="sys-dot">ONLINE</span></div>
-      <div class="chips"><span>Next.js</span><span>React</span><span>TypeScript</span></div>
+      <div class="chips"><span>Next.js</span><span>React</span></div>
     </article>
     <article class="sys panel reveal">
       <div class="sys-head"><h3>Security &amp; testing</h3><span class="sys-dot">ONLINE</span></div>
@@ -748,8 +761,7 @@ html.no-js .hero-name .line span{transform:none}
       <span class="tag tag-cyan">2025 – 2027 · In progress</span>
       <h3>Joint MSc, Data Science &amp; Artificial Intelligence</h3>
       <p class="edu-inst">UNIVERSITY OF BIRMINGHAM × IIT MADRAS</p>
-      <p><strong>Distinction-average marks to date.</strong> Coursework spans machine learning, data analytics, NLP, data visualisation, data structures &amp; mathematics for data science, and current topics in AI.</p>
-      <div class="edu-marks"><span class="tag tag-amber">Current Topics in AI · 87</span><span class="tag tag-amber">NLP · 83</span><span class="tag tag-amber">Data Visualisation · 76</span></div>
+      <p><strong>Passed with distinction.</strong> Coursework spans machine learning, data analytics, NLP, data visualisation, data structures &amp; mathematics for data science, and current topics in AI.</p>
     </article>
     <article class="edu-card panel reveal">
       <span class="tag tag-violet">2019 – 2023</span>
@@ -770,7 +782,7 @@ html.no-js .hero-name .line span{transform:none}
     <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Pitch — Google Hackathon</h3><p>Awarded for DeltaEd, the growth-based student leaderboard with an AI coach.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Use of Google Tools</h3><p>Second award for DeltaEd at the same Google hackathon — deployed on Cloud Run.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">🎤</span><div><h3>Presented at the G20 Library Summit</h3><p>NLP research on tweet sentiment and topic distributions, presented on an international stage.</p></div></article>
-    <article class="honor panel reveal"><span class="honor-icon">🎓</span><div><h3>First Class with Distinction</h3><p>Undergraduate degree, plus distinction-average marks so far on the MSc.</p></div></article>
+    <article class="honor panel reveal"><span class="honor-icon">🎓</span><div><h3>First Class with Distinction</h3><p>Undergraduate degree — with the MSc also passed with distinction.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">📜</span><div><h3>Reference letter — Kahawa Roots</h3><p>From the Head of Sustainability &amp; Traceability, for leading the platform end to end.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">📉</span><div><h3>50% cost cut, in production</h3><p>Halved infrastructure costs and cut pipeline failures by 60% at Comcast.</p></div></article>
   </div>
@@ -790,6 +802,7 @@ html.no-js .hero-name .line span{transform:none}
   </div>
   <div class="contact-links mono reveal">
     <a class="chip-link" data-comms href="https://github.com/ShreehariA" target="_blank" rel="noopener">GITHUB ↗</a>
+    <a class="chip-link" data-comms href="https://www.linkedin.com/in/a-shreehari/" target="_blank" rel="noopener">LINKEDIN ↗</a>
     <a class="chip-link" data-comms href="https://leetcode.com/u/shreeharianbazhagan/" target="_blank" rel="noopener">LEETCODE ↗</a>
     <a class="chip-link" data-comms href="mailto:shreeharianbazhagan@gmail.com">SHREEHARIANBAZHAGAN@GMAIL.COM</a>
   </div>
@@ -854,12 +867,12 @@ function save(){store.set(KEY,JSON.stringify(state))}
 /* ---------- achievements + ranks ---------- */
 var ACH=[
  {id:'boot',icon:'⚡',name:'Systems Online',desc:'Completed the boot sequence.',xp:10},
- {id:'about',icon:'🧭',name:'First Contact',desc:'Opened the dossier.',xp:15},
- {id:'experience',icon:'📜',name:'Flight Recorder',desc:'Reviewed the flight log.',xp:15},
- {id:'projects',icon:'🛰️',name:'Archive Diver',desc:'Browsed the mission archive.',xp:15},
- {id:'skills',icon:'🔧',name:'Systems Check',desc:'Inspected the ship systems.',xp:15},
- {id:'education',icon:'🎓',name:'Academy File',desc:'Pulled the academy records.',xp:10},
- {id:'honors',icon:'🎖️',name:'Medal Count',desc:'Viewed the commendations.',xp:10},
+ {id:'about',icon:'🧭',name:'First Contact',desc:'Opened the dossier.',xp:15,quiet:1},
+ {id:'experience',icon:'📜',name:'Flight Recorder',desc:'Reviewed the flight log.',xp:15,quiet:1},
+ {id:'projects',icon:'🛰️',name:'Archive Diver',desc:'Browsed the mission archive.',xp:15,quiet:1},
+ {id:'skills',icon:'🔧',name:'Systems Check',desc:'Inspected the ship systems.',xp:15,quiet:1},
+ {id:'education',icon:'🎓',name:'Academy File',desc:'Pulled the academy records.',xp:10,quiet:1},
+ {id:'honors',icon:'🎖️',name:'Medal Count',desc:'Viewed the commendations.',xp:10,quiet:1},
  {id:'debrief',icon:'🔭',name:'Mission Debrief',desc:'Opened a mission\u2019s source code.',xp:20},
  {id:'comms',icon:'📡',name:'Transmission Sent',desc:'Opened a comms link.',xp:20},
  {id:'allsec',icon:'🌌',name:'Deep Space Explorer',desc:'Explored every section of the ship.',xp:30,hint:'Visit every section.'},
@@ -916,18 +929,25 @@ $('#hudReset').addEventListener('click',function(){
 var toastBox=$('#toasts');
 function toast(icon,kicker,name,xp){
   var t=document.createElement('div');t.className='toast';
-  t.innerHTML='<span class="toast-icon"></span><div><div class="toast-kicker"></div><div class="toast-name"></div></div><span class="toast-xp"></span>';
+  t.innerHTML='<span class="toast-icon"></span><div><div class="toast-kicker"></div><div class="toast-name"></div></div><span class="toast-xp"></span><button class="toast-x" type="button" aria-label="Dismiss">\u00d7</button>';
   t.children[0].textContent=icon;
   t.children[1].children[0].textContent=kicker;
   t.children[1].children[1].textContent=name;
   t.children[2].textContent=xp;
+  var closed=false;
+  function dismiss(){if(closed)return;closed=true;t.classList.add('out');setTimeout(function(){t.remove()},420)}
+  t.children[3].addEventListener('click',dismiss);
   toastBox.appendChild(t);
-  setTimeout(function(){t.classList.add('out');setTimeout(function(){t.remove()},420)},3400);
+  setTimeout(dismiss,3600);
 }
 function unlock(id){
   if(state.ach[id])return;
   var a=achById(id);if(!a)return;
   state.ach[id]=Date.now();save();renderHUD();
+  if(a.quiet){
+    hudToggle.classList.remove('ping');void hudToggle.offsetWidth;hudToggle.classList.add('ping');
+    return;
+  }
   toast(a.icon,'ACHIEVEMENT UNLOCKED',a.name,'+'+a.xp+' XP');
 }
 
@@ -935,11 +955,9 @@ function unlock(id){
 var boot=$('#boot'),bootPre=$('#bootLines'),bootDone=false;
 var LINES=[
  ['SHREEHARI_OS v4.2.0 \u2014 mission control',''],
- ['mounting /dev/experience .......... OK','ok'],
- ['loading modules: python aws terraform fastapi kafka .. OK','ok'],
+ ['loading modules: python aws terraform fastapi .. OK','ok'],
  ['syncing flight log: comcast \u00b7 mint-labs \u00b7 kahawa-roots','dim'],
- ['calibrating starfield ............. OK','ok'],
- ['establishing uplink: birmingham/uk  OK','ok'],
+ ['establishing uplink: birmingham/uk ..... OK','ok'],
  ['ALL SYSTEMS NOMINAL \u2014 welcome aboard.','warn']
 ];
 function finishBoot(){
@@ -961,7 +979,7 @@ function runBoot(){
   var li=0;
   function typeLine(){
     if(bootDone)return;
-    if(li>=LINES.length){setTimeout(finishBoot,500);return}
+    if(li>=LINES.length){setTimeout(finishBoot,380);return}
     var text=LINES[li][0],cls=LINES[li][1],ci=0;
     var span=document.createElement('span');
     if(cls)span.className='b-'+cls;
@@ -969,8 +987,8 @@ function runBoot(){
     (function tick(){
       if(bootDone)return;
       span.textContent=text.slice(0,++ci);
-      if(ci<text.length){setTimeout(tick,7+Math.random()*14)}
-      else{bootPre.appendChild(document.createTextNode('\n'));li++;setTimeout(typeLine,110)}
+      if(ci<text.length){setTimeout(tick,5+Math.random()*10)}
+      else{bootPre.appendChild(document.createTextNode('\n'));li++;setTimeout(typeLine,90)}
     })();
   }
   typeLine();
@@ -1189,6 +1207,7 @@ var secObs=new IntersectionObserver(function(es){
     var id=en.target.getAttribute('data-sec')||en.target.id;
     if(id==='hero'){setActive('');return}
     setActive(id);
+    document.body.classList.add('hud-on');
     if(!state.secs[id]){state.secs[id]=1;save()}
     if(SEC_ACH[id])unlock(SEC_ACH[id]);
     var all=true;
@@ -1222,6 +1241,8 @@ $$('a[data-comms]').forEach(function(a){a.addEventListener('click',function(){un
 $$('a[data-mission]').forEach(function(a){a.addEventListener('click',function(){unlock('debrief')})});
 
 renderHUD();
+var achCount=0;for(var ak in state.ach)achCount++;
+if(achCount>1)document.body.classList.add('hud-on');
 })();
 </script>
 </body>
