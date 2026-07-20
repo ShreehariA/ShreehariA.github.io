@@ -23,13 +23,14 @@ A space sci-fi "mission control" interface with a game layer on top: visitors ea
 |---|---|
 | `index.html` | The entire site — content, styles and scripts |
 | `404.html` | "Lost in space" page for unknown URLs |
+| `resume.pdf` | Downloadable CV — linked from the hero and Contact buttons |
 | `og-image.png` | Social preview card (LinkedIn / WhatsApp / X link previews) |
 | `README.md` | This file |
 
 ## Deploying to GitHub Pages
 
 1. Create a **public** repository named exactly `ShreehariA.github.io` (your username + `.github.io`).
-2. Upload `index.html`, `404.html`, `og-image.png` and `README.md` to the repository root.
+2. Upload `index.html`, `404.html`, `resume.pdf`, `og-image.png` and `README.md` to the repository root.
 3. That's it — GitHub Pages activates automatically for repos with this name. The site goes live at **https://shreeharia.github.io** within a couple of minutes. (You can confirm under **Settings → Pages**, where "Deploy from a branch / main / root" should be selected.)
 
 ### Via the command line instead
@@ -68,5 +69,6 @@ Opening `index.html` directly in a browser also works.
 
 ## Optional next steps
 
+- **Updating your CV** — overwrite `resume.pdf` with a newer version any time; the site's buttons keep working, no HTML change needed.
 - **Custom domain** — add a `CNAME` file containing your domain and configure DNS (Settings → Pages → Custom domain).
 - **Analytics** — add a privacy-friendly tracker such as GoatCounter or Plausible with one script tag.
