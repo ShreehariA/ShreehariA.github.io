@@ -350,15 +350,104 @@ body.booted .hero-name .line span{transform:translateY(0)}
 .sys-dot{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;color:var(--ok)}
 .sys-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 2.8s infinite}
 
-/* ============ EDUCATION ============ */
-.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.edu-card{padding:28px}
-.edu-card h3{font-size:1.12rem;font-weight:600;margin:14px 0 4px;letter-spacing:-.01em}
-.edu-inst{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;color:var(--ion);margin-bottom:14px}
-.edu-card p{color:var(--muted);font-size:14px}
-.edu-card p strong{color:var(--text)}
-.edu-marks{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px}
-@media (max-width:820px){.edu-grid{grid-template-columns:1fr}}
+/* ============ CREDENTIAL BADGE WALL ============ */
+.cred-group{margin-bottom:30px}
+.cred-group:last-child{margin-bottom:0}
+.cred-label{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:16px;
+}
+.cred-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.cred-label .cred-count{color:var(--ion);opacity:.7}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px}
+/* each badge is a link that opens the cert; keyboard + screen-reader friendly */
+.badge{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:11px;padding:20px 12px 15px;min-height:120px;text-align:center;
+  background:linear-gradient(180deg,rgba(18,28,52,.55),rgba(10,16,32,.55));
+  border:1px solid var(--line);border-radius:13px;
+  transition:transform .28s var(--ease),border-color .28s,box-shadow .28s,background .28s;
+}
+.badge:hover,.badge:focus-visible{
+  transform:translateY(-4px);border-color:var(--line-strong);
+  box-shadow:0 12px 34px rgba(3,7,18,.5);text-decoration:none;
+  background:linear-gradient(180deg,rgba(22,34,60,.7),rgba(12,20,38,.7));
+}
+.badge-logo{
+  width:52px;height:52px;display:flex;align-items:center;justify-content:center;
+  border-radius:12px;overflow:hidden;flex-shrink:0;
+  background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+.badge-logo img{width:100%;height:100%;object-fit:contain;padding:7px}
+/* placeholder logo look until real logos arrive */
+.badge-logo.ph{
+  background:linear-gradient(135deg,var(--hull-hi),var(--hull));
+  box-shadow:inset 0 0 0 1px var(--line-strong);
+  font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--ion);
+}
+.badge-name{font-size:12px;font-weight:600;line-height:1.3;color:var(--text);letter-spacing:-.005em}
+.badge-meta{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+/* verified tick — only on badges that link to a real cert file */
+.badge-verified{
+  position:absolute;top:8px;right:8px;width:15px;height:15px;border-radius:50%;
+  background:var(--ok);color:var(--void);font-size:9px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 8px rgba(74,222,128,.5);font-weight:700;
+}
+.badge.no-cert{cursor:default}
+.badge.no-cert:hover{transform:none;border-color:var(--line);box-shadow:none;background:linear-gradient(180deg,rgba(18,28,52,.55),rgba(10,16,32,.55))}
+/* tooltip hint on hover */
+.badge[data-hint]::before{
+  content:attr(data-hint);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);
+  background:rgba(6,9,19,.97);border:1px solid var(--line-strong);border-radius:7px;
+  padding:6px 10px;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;color:var(--text);
+  white-space:nowrap;opacity:0;pointer-events:none;transition:.2s;z-index:5;text-transform:none;
+}
+.badge[data-hint]:hover::before,.badge[data-hint]:focus-visible::before{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:560px){
+  .badge-grid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+  .badge{min-height:108px;padding:16px 8px 12px}
+  .badge-logo{width:44px;height:44px}
+}
+
+/* ============ CERT LIGHTBOX ============ */
+#lightbox{
+  position:fixed;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,4vw,48px);
+  background:rgba(4,7,15,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s;
+}
+#lightbox.open{opacity:1;visibility:visible}
+.lb-stage{
+  position:relative;max-width:min(1000px,94vw);max-height:90vh;
+  transform:scale(.94) translateY(10px);transition:transform .35s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+}
+#lightbox.open .lb-stage{transform:scale(1) translateY(0)}
+.lb-stage img{
+  max-width:100%;max-height:90vh;object-fit:contain;border-radius:10px;
+  box-shadow:0 24px 70px rgba(0,0,0,.6), 0 0 0 1px var(--line-strong);
+  background:#fff;
+}
+#lbClose{
+  position:absolute;top:-14px;right:-14px;width:38px;height:38px;border-radius:50%;
+  background:var(--void);border:1px solid var(--line-strong);color:var(--text);
+  font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.5);transition:.2s;z-index:2;
+}
+#lbClose:hover{border-color:var(--ion);color:var(--ion);transform:rotate(90deg)}
+.lb-open-tab{
+  position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:7px 13px;transition:.25s;
+  white-space:nowrap;
+}
+.lb-open-tab:hover{color:var(--ion);border-color:var(--ion);background:var(--ion-dim)}
+@media (max-width:560px){
+  #lbClose{top:-10px;right:-10px;width:34px;height:34px;font-size:18px}
+}
+
+/* ============ HONORS ============ */
 
 /* ============ HONORS ============ */
 .honor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
@@ -541,7 +630,7 @@ html.no-js .hero-name .line span{transform:none}
     <span class="line"><span>SHREEHARI</span></span>
     <span class="line"><span>ANBAZHAGAN</span></span>
   </h1>
-  <p class="hero-role mono" aria-label="Data and Cloud Engineer, Backend Developer, Applied AI Builder">&gt;&nbsp;<span id="typedRole">DATA &amp; CLOUD ENGINEER</span><span class="caret" aria-hidden="true">▊</span></p>
+  <p class="hero-role mono" aria-label="Data and Cloud Engineer, Backend Developer, Applied AI Builder, Data Engineer">&gt;&nbsp;<span id="typedRole">DATA &amp; CLOUD ENGINEER</span><span class="caret" aria-hidden="true">▊</span></p>
   <p class="hero-sub">I build systems end to end — cloud infrastructure, data pipelines, backend services, and the AI that sits on top of them. Three years of shipping things that actually run in production.</p>
   <div class="hero-cta">
     <a class="btn btn-solid" href="resume.pdf" download="Shreehari_Anbazhagan_CV.pdf">Download resume ↓</a>
@@ -750,25 +839,108 @@ html.no-js .hero-name .line span{transform:none}
   </div>
 </section>
 
-<!-- ============ EDUCATION ============ -->
+<!-- ============ EDUCATION / CREDENTIAL WALL ============ -->
+<!--
+  BADGE WALL — how to add or update a credential:
+  Each badge is a <button class="badge">. Clicking one opens the certificate in a
+  lightbox (an overlay on the page — it does NOT download).
+
+  • REAL CERT (opens in lightbox): put a web image (JPG/PNG) in the /certs/ folder,
+    set data-cert="certs/name.jpg" on the button, keep <span class="badge-verified">✓</span>.
+  • PLACEHOLDER (nothing to show): omit data-cert, add class "no-cert", drop the tick.
+  • LOGO: <span class="badge-logo"><img src="certs/logos/x.svg" alt="X logo"></span>
+  • Groups: Degrees | Awards | Certifications | Letters.
+-->
 <section class="sec" id="education" data-sec="education">
   <header class="sec-head reveal">
-    <p class="eyebrow mono">// Academy records</p>
-    <h2>Training</h2>
+    <p class="eyebrow mono">// Commendations bay</p>
+    <h2>Credentials &amp; badges</h2>
   </header>
-  <div class="edu-grid">
-    <article class="edu-card panel reveal">
-      <span class="tag tag-cyan">2025 – 2027 · In progress</span>
-      <h3>Joint MSc, Data Science &amp; Artificial Intelligence</h3>
-      <p class="edu-inst">UNIVERSITY OF BIRMINGHAM × IIT MADRAS</p>
-      <p><strong>Passed with distinction.</strong> Coursework spans machine learning, data analytics, NLP, data visualisation, data structures &amp; mathematics for data science, and current topics in AI.</p>
-    </article>
-    <article class="edu-card panel reveal">
-      <span class="tag tag-violet">2019 – 2023</span>
-      <h3>B.Tech, Computer Science &amp; Engineering</h3>
-      <p class="edu-inst">SASTRA DEEMED UNIVERSITY</p>
-      <p>Graduated with <strong>First Class with Distinction</strong> — equivalent to a UK First. Foundations in algorithms, systems and software engineering that everything above is built on.</p>
-    </article>
+
+  <!-- ---------- DEGREES ---------- -->
+  <div class="cred-group reveal">
+    <p class="cred-label">Degrees <span class="cred-count mono">03</span></p>
+    <div class="badge-grid">
+      <button type="button" class="badge no-cert" data-hint="Joint MSc · Distinction" aria-label="Joint MSc Data Science and AI, University of Birmingham, 2025 to 2027">
+        <span class="badge-logo"><img src="certs/logos/birmingham.svg" alt="University of Birmingham"></span>
+        <span class="badge-name">MSc Data Science &amp; AI</span>
+        <span class="badge-meta">Birmingham · 2027</span>
+      </button>
+      <button type="button" class="badge no-cert" data-hint="Joint MSc · IIT Madras" aria-label="Joint MSc Data Science and AI, IIT Madras, 2025 to 2027">
+        <span class="badge-logo"><img src="certs/logos/iitm.svg" alt="IIT Madras"></span>
+        <span class="badge-name">MSc Data Science &amp; AI</span>
+        <span class="badge-meta">IIT Madras · 2027</span>
+      </button>
+      <button type="button" class="badge" data-cert="certs/degree-sastra.jpg" data-hint="B.Tech CSE · First Class with Distinction" aria-label="View certificate: B.Tech Computer Science and Engineering, SASTRA, First Class with Distinction, conferred 2023">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/sastra.svg" alt="SASTRA University"></span>
+        <span class="badge-name">B.Tech CSE · Distinction</span>
+        <span class="badge-meta">SASTRA · 2023</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ---------- AWARDS ---------- -->
+  <div class="cred-group reveal">
+    <p class="cred-label">Awards <span class="cred-count mono">04</span></p>
+    <div class="badge-grid">
+      <button type="button" class="badge" data-cert="certs/award-best-pitch.jpg" data-hint="Boffins Den · Best Pitch, Audience Choice" aria-label="View certificate: Best Pitch, Audience Choice, Boffins Den March 2026, Google Cloud Agentic AI Hackathon">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/google-cloud.svg" alt="Google Cloud"></span>
+        <span class="badge-name">Best Pitch</span>
+        <span class="badge-meta">Google Cloud · 🏆</span>
+      </button>
+      <button type="button" class="badge" data-cert="certs/award-google-tools.jpg" data-hint="Boffins Den · Best Use of Google Tools" aria-label="View certificate: Best Use of Google Tools, Boffins Den March 2026, Google Cloud Agentic AI Hackathon">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/google-cloud.svg" alt="Google Cloud"></span>
+        <span class="badge-name">Best Use of Tools</span>
+        <span class="badge-meta">Google Cloud · 🏆</span>
+      </button>
+      <button type="button" class="badge" data-cert="certs/award-mcc-finalist.jpg" data-hint="Masters Consultancy Challenge 2026 · Grand Finalist" aria-label="View certificate: Masters Consultancy Challenge 2026 Grand Finalist, University of Birmingham with Turner and Townsend">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/birmingham.svg" alt="University of Birmingham"></span>
+        <span class="badge-name">MCC Grand Finalist</span>
+        <span class="badge-meta">Birmingham · 2026</span>
+      </button>
+      <button type="button" class="badge" data-cert="certs/award-g20.jpg" data-hint="G20 Library Summit · presented Feb 2024" aria-label="View certificate: G20 Library Summit, Pondicherry University, February 2024">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/g20.svg" alt="G20 Library Summit"></span>
+        <span class="badge-name">G20 Library Summit</span>
+        <span class="badge-meta">Presented · 2024</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ---------- CERTIFICATIONS ---------- -->
+  <div class="cred-group reveal">
+    <p class="cred-label">Certifications <span class="cred-count mono">01</span></p>
+    <div class="badge-grid">
+      <button type="button" class="badge" data-cert="certs/cert-udemy-pyspark.jpg" data-hint="PySpark &amp; AWS · Master Big Data · 19.5 hrs" aria-label="View certificate: PySpark and AWS Master Big Data, Udemy, May 2023">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/udemy.svg" alt="Udemy"></span>
+        <span class="badge-name">PySpark &amp; AWS</span>
+        <span class="badge-meta">Udemy · 2023</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ---------- LETTERS ---------- -->
+  <div class="cred-group reveal">
+    <p class="cred-label">Letters <span class="cred-count mono">02</span></p>
+    <div class="badge-grid">
+      <button type="button" class="badge" data-cert="certs/letter-kahawa.jpg" data-hint="Kahawa Roots · reference letter" aria-label="View reference letter: Kahawa Roots UK, Head of Sustainability and Traceability">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/kahawa.svg" alt="Kahawa Roots"></span>
+        <span class="badge-name">Reference Letter</span>
+        <span class="badge-meta">Kahawa Roots · 2026</span>
+      </button>
+      <button type="button" class="badge" data-cert="certs/letter-comcast.jpg" data-hint="Comcast · internship completion letter" aria-label="View internship letter: Comcast India Engineering Centre, 2023">
+        <span class="badge-verified" aria-hidden="true">✓</span>
+        <span class="badge-logo"><img src="certs/logos/comcast.svg" alt="Comcast"></span>
+        <span class="badge-name">Internship Letter</span>
+        <span class="badge-meta">Comcast · 2023</span>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -779,12 +951,12 @@ html.no-js .hero-name .line span{transform:none}
     <h2>Decorations &amp; recognition</h2>
   </header>
   <div class="honor-grid">
-    <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Pitch — Google Hackathon</h3><p>Awarded for DeltaEd, the growth-based student leaderboard with an AI coach.</p></div></article>
-    <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Use of Google Tools</h3><p>Second award for DeltaEd at the same Google hackathon — deployed on Cloud Run.</p></div></article>
+    <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Pitch, Audience Choice</h3><p>Boffins Den — the Google Cloud Agentic AI Hackathon at the University of Birmingham (March 2026).</p></div></article>
+    <article class="honor panel reveal"><span class="honor-icon">🏆</span><div><h3>Best Use of Google Tools</h3><p>Second award at the same Boffins Den hackathon, for innovation and technical execution.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">🎤</span><div><h3>Presented at the G20 Library Summit</h3><p>NLP research on tweet sentiment and topic distributions, presented on an international stage.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">🎓</span><div><h3>First Class with Distinction</h3><p>Undergraduate degree — with the MSc also passed with distinction.</p></div></article>
     <article class="honor panel reveal"><span class="honor-icon">📜</span><div><h3>Reference letter — Kahawa Roots</h3><p>From the Head of Sustainability &amp; Traceability, for leading the platform end to end.</p></div></article>
-    <article class="honor panel reveal"><span class="honor-icon">📉</span><div><h3>50% cost cut, in production</h3><p>Halved infrastructure costs and cut pipeline failures by 60% at Comcast.</p></div></article>
+    <article class="honor panel reveal"><span class="honor-icon">🎖️</span><div><h3>MCC 2026 Grand Finalist</h3><p>Masters Consultancy Challenge with Turner &amp; Townsend — reached the Grand Finals of its most competitive year.</p></div></article>
   </div>
 </section>
 
@@ -813,6 +985,15 @@ html.no-js .hero-name .line span{transform:none}
   <div>© 2026 SHREEHARI ANBAZHAGAN · HANDCRAFTED HTML / CSS / JS · NO FRAMEWORKS · TRANSMITTED FROM BIRMINGHAM, UK</div>
   <div class="f-hint">PILOTS KNOW THE CODE — <b>↑ ↑ ↓ ↓ ← → ← → B A</b> · OR TAP THE ◈ SEVEN TIMES</div>
 </footer>
+
+<!-- ============ CERT LIGHTBOX ============ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+  <div class="lb-stage">
+    <button id="lbClose" type="button" aria-label="Close certificate">×</button>
+    <img id="lbImg" src="" alt="">
+    <a id="lbTab" class="lb-open-tab mono" href="#" target="_blank" rel="noopener">Open full size ↗</a>
+  </div>
+</div>
 
 <!-- ============ GAME LAYER ============ -->
 <button id="satellite" type="button" hidden aria-label="A passing satellite — click to catch it">
@@ -875,6 +1056,7 @@ var ACH=[
  {id:'honors',icon:'🎖️',name:'Medal Count',desc:'Viewed the commendations.',xp:10,quiet:1},
  {id:'debrief',icon:'🔭',name:'Mission Debrief',desc:'Opened a mission\u2019s source code.',xp:20},
  {id:'comms',icon:'📡',name:'Transmission Sent',desc:'Opened a comms link.',xp:20},
+ {id:'creds',icon:'🎖️',name:'Credential Check',desc:'Inspected a certificate.',xp:20,hint:'Open a badge in the commendations bay.'},
  {id:'allsec',icon:'🌌',name:'Deep Space Explorer',desc:'Explored every section of the ship.',xp:30,hint:'Visit every section.'},
  {id:'satellite',icon:'☄️',name:'Signal Hunter',desc:'Caught the passing satellite.',xp:40,hint:'Keep an eye on the sky\u2026'},
  {id:'warp',icon:'🌀',name:'Warp Pilot',desc:'Engaged the warp drive.',xp:50,hint:'Pilots know the code. Check the footer.'}
@@ -1007,7 +1189,7 @@ function tickClock(){
 tickClock();setInterval(tickClock,1000);
 
 /* ---------- typed role ---------- */
-var ROLES=['DATA & CLOUD ENGINEER','BACKEND DEVELOPER','APPLIED-AI BUILDER','MSc DATA SCIENCE & AI'];
+var ROLES=['DATA & CLOUD ENGINEER','BACKEND DEVELOPER','APPLIED-AI BUILDER','DATA ENGINEER'];
 var roleEl=$('#typedRole');
 if(!RM){
   var ri=0,rp=ROLES[0].length,del=true;
@@ -1239,6 +1421,32 @@ document.addEventListener('keydown',function(e){
 });
 $$('a[data-comms]').forEach(function(a){a.addEventListener('click',function(){unlock('comms')})});
 $$('a[data-mission]').forEach(function(a){a.addEventListener('click',function(){unlock('debrief')})});
+
+/* ---------- cert lightbox ---------- */
+var lb=$('#lightbox'),lbImg=$('#lbImg'),lbTab=$('#lbTab'),lbClose=$('#lbClose'),lbReturn=null;
+function openLB(src,label){
+  lbImg.src=src;lbImg.alt=label||'Certificate';lbTab.href=src;
+  lb.classList.add('open');
+  lbClose.focus();
+}
+function closeLB(){
+  lb.classList.remove('open');
+  lbImg.src='';
+  if(lbReturn&&lbReturn.focus){lbReturn.focus();lbReturn=null}
+}
+$$('.badge').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var src=btn.getAttribute('data-cert');
+    if(!src)return; // placeholder / no cert yet
+    lbReturn=btn;
+    var nm=btn.querySelector('.badge-name');
+    openLB(src,nm?nm.textContent:'Certificate');
+    unlock('creds');
+  });
+});
+lbClose.addEventListener('click',closeLB);
+lb.addEventListener('click',function(e){if(e.target===lb)closeLB()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open'))closeLB()});
 
 renderHUD();
 var achCount=0;for(var ak in state.ach)achCount++;

@@ -24,6 +24,7 @@ A space sci-fi "mission control" interface with a game layer on top: visitors ea
 | `index.html` | The entire site — content, styles and scripts |
 | `404.html` | "Lost in space" page for unknown URLs |
 | `resume.pdf` | Downloadable CV — linked from the hero and Contact buttons |
+| `certs/` | Certificate PDFs/images that the credential badges open (create this folder) |
 | `og-image.png` | Social preview card (LinkedIn / WhatsApp / X link previews) |
 | `README.md` | This file |
 
@@ -70,5 +71,6 @@ Opening `index.html` directly in a browser also works.
 ## Optional next steps
 
 - **Updating your CV** — overwrite `resume.pdf` with a newer version any time; the site's buttons keep working, no HTML change needed.
+- **Adding a credential badge** — in the Academy section of `index.html`, each badge is an `<a class="badge">`. To make one open a real certificate: put the file in a `certs/` folder at the repo root, set the badge's `href` to its path (e.g. `certs/aws-saa.pdf`), remove the `no-cert` class, and keep/add the `<span class="badge-verified">✓</span>` tick. For a real logo, swap the `<div class="badge-logo ph">XX</div>` placeholder for `<div class="badge-logo"><img src="certs/logos/google.svg" alt="Google logo"></div>`. Full instructions are in the comment block above that section.
 - **Custom domain** — add a `CNAME` file containing your domain and configure DNS (Settings → Pages → Custom domain).
 - **Analytics** — add a privacy-friendly tracker such as GoatCounter or Plausible with one script tag.
